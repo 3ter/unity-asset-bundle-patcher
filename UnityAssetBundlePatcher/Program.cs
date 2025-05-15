@@ -12,5 +12,9 @@ Parser.Default.ParseArguments<CliOptions>(args).WithParsed(options =>
         Console.WriteLine($"Patched file written to: {outputPath}");
     }).WithNotParsed(errors =>
     {
+        if (errors.IsHelp())
+        {
+            return;
+        }
         Console.WriteLine("Invalid arguments. Use --help for usage info.");
     });
