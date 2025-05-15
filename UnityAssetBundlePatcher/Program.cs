@@ -1,15 +1,16 @@
-﻿using UnityAssetBundlePatcher.AssetPatcherLib;
+﻿using UnityAssetBundlePatcher;
+using UnityAssetBundlePatcher.AssetPatcherLib;
+using CommandLine;
 
-if (args.Length < 2)
-{
-    Console.WriteLine("Usage: patcher [file to patch] [dat file to import]");
-    return;
-}
+Parser.Default.ParseArguments<CliOptions>(args).WithParsed(options =>
+    {
+        string outputPath = options.Overwrite
+                ? options.FileToPatch
+                : options.FileToPatch + ".patch";
 
-string fileToPatch = args[0];
-string datFile = args[1];
-string outputFile = fileToPatch + ".patch";
-
-var patcher = new AssetPatcher();
-AssetPatcher.PatchRawAsset(fileToPatch, datFile, outputFile);
-Console.WriteLine($"Patched file written to: {outputFile}");
+        AssetPatcher.PatchRawAsset(options.FileToPatch, options.DatFile, outputPath);
+        Console.WriteLine($"Patched file written to: {outputPath}");
+    }).WithNotParsed(errors =>
+    {
+        Console.WriteLine("Invalid arguments. Use --help for usage info.");
+    });
