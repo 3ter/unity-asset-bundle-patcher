@@ -9,8 +9,12 @@ namespace UnityAssetBundlePatcher.AssetPatcherLib
         {
             var manager = new AssetsManager();
 
+            manager.LoadClassPackage(Path.Combine(AppContext.BaseDirectory, "classdata.tpk"));
+
             var afileInst = manager.LoadAssetsFile(fileToPatch, false);
             var afile = afileInst.file;
+
+            manager.LoadClassDatabaseFromPackage(afile.Metadata.UnityVersion);
 
             AssetFileInfo datFileInf;
             if (byName != "")

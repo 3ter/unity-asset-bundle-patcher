@@ -12,4 +12,11 @@
     <PackageReference Include="CommandLineParser" Version="2.9.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="classdata.tpk">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>classdata.tpk</Link>
+    </None>
+  </ItemGroup>
+
 </Project>
