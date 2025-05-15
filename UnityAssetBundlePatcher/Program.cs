@@ -8,7 +8,7 @@ Parser.Default.ParseArguments<CliOptions>(args).WithParsed(options =>
                 ? options.FileToPatch
                 : options.FileToPatch + ".patch";
 
-        AssetPatcher.PatchRawAsset(options.FileToPatch, options.DatFile, outputPath);
+        AssetPatcher.PatchRawAsset(options.FileToPatch, options.DatFile, outputPath, options.ByName);
         Console.WriteLine($"Patched file written to: {outputPath}");
     }).WithNotParsed(errors =>
     {

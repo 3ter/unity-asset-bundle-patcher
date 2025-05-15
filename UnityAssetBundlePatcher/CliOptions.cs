@@ -12,5 +12,8 @@ namespace UnityAssetBundlePatcher
 
         [Option("overwrite", Required = false, HelpText = "Overwrite the input file instead of creating a .patch.")]
         public bool Overwrite { get; set; }
+
+        [Option("by-name", Required = false, HelpText = "Ignore dat file name and use the asset name instead. If there are multiple assets with the same name, the one with the largest file size will be overwritten.")]
+        public string ByName { get; set; } = string.Empty;
     }
 }
