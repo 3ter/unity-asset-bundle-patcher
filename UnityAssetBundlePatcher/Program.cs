@@ -12,7 +12,7 @@ Parser.Default.ParseArguments<CliOptions>(args).WithParsed(options =>
         Console.WriteLine($"Patched file written to: {outputPath}");
     }).WithNotParsed(errors =>
     {
-        if (errors.IsHelp())
+        if (errors.IsHelp() || errors.IsVersion())
         {
             return;
         }
