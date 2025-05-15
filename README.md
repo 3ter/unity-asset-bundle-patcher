@@ -7,6 +7,10 @@ A small endeavor to automate the `import raw` action from UABEA: https://github.
 ## Usage
 
 ```
+.\UnityAssetBundlePatcher\bin\Debug\net9.0\UnityAssetBundlePatcher.exe Tests\resources.assets Tests\Solid_001-resources.assets-6.dat --by-name "tea mug"
+```
+
+```
 > .\UnityAssetBundlePatcher\bin\Debug\net9.0\UnityAssetBundlePatcher.exe --help   
 UnityAssetBundlePatcher 1.0.0+b86cc2dab1b9167029288b9abf360e40f27a1dcf
 Copyright (C) 2025 UnityAssetBundlePatcher
