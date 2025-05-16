@@ -114,5 +114,43 @@ namespace Tests
             Assert.That(assetInfoNew1 == null, "After the patch there should be no asset with the name " + ASSET_NAME_1 + " anymore.");
             Assert.That(assetInfosNew.Count == 2, "After the patch there should be exactly 2 assets with the name " + ASSET_NAME_2);
         }
+
+        [Test]
+        public void PatchRawAsset_OverwritesFileSafely_WhenOutputEqualsInput()
+        {
+            // Arrange
+            string assetFileTemplate = Path.Combine(TestContext.CurrentContext.TestDirectory, "resources.assets");
+            string patchFileTemplate = Path.Combine(TestContext.CurrentContext.TestDirectory, "Solid_001-resources.assets-6.dat");
+
+            string testDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+            Directory.CreateDirectory(testDir);
+            string assetFile = Path.Combine(testDir, "test-resources.assets");
+            string patchFile = Path.Combine(testDir, "Solid_001-resources.assets-5.dat");
+
+            File.Copy(assetFileTemplate, assetFile, true);
+            File.Copy(patchFileTemplate, patchFile, true);
+
+            // Read mesh size before patch
+            var manager = new AssetsManager();
+            var fileInst = manager.LoadAssetsFile(assetFile, false);
+            var afile = fileInst.file;
+            var assetInfoBefore = afile.GetAssetsOfType(AssetClassID.Mesh).Find(a => a.PathId == 5);
+            long sizeBefore = assetInfoBefore.ByteSize;
+
+            // Act: Patch in-place
+            AssetPatcher.PatchRawAsset(assetFile, patchFile, assetFile);
+
+            // Assert: File is updated and not corrupted
+            var manager2 = new AssetsManager();
+            var fileInst2 = manager2.LoadAssetsFile(assetFile, false);
+            var afile2 = fileInst2.file;
+            var assetInfoAfter = afile2.GetAssetsOfType(AssetClassID.Mesh).Find(a => a.PathId == 5);
+            long sizeAfter = assetInfoAfter.ByteSize;
+            Assert.That(sizeBefore != sizeAfter, "The asset file should be updated in-place.");
+
+            // Assert: No temp file remains
+            var tempFiles = Directory.GetFiles(testDir, "test-resources.assets_*.tmp");
+            Assert.That(tempFiles.Length, Is.EqualTo(0), "No temp file should remain after patching.");
+        }
     }
 }
