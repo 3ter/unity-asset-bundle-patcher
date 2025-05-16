@@ -30,3 +30,6 @@ Copyright (C) 2025 UnityAssetBundlePatcher
   dat-file (pos. 1)      Required. The .dat file to import (overwrite an existing object). It is of the form `{asset display name}-{source file name}-{asset path id}.{file extension}` where currently only the path
                          id is used to identify the asset to patch.
 ```
+
+## Known Limitations
+- Currently only looks for replacing Meshes when using `--by-name`.
