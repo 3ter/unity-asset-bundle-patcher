@@ -6,6 +6,8 @@ A small endeavor to automate the `import raw` action from UABEA: https://github.
 
 ## Usage
 
+> ⚠ You need to have the `classdata.tpk` next to the executable (can be downloaded from [AssetRipper type tree tpk](https://github.com/AssetRipper/Tpk/actions/workflows/type_tree_tpk.yml) → click the latest workflow run and download `uncompressed_file` and copy the unzipped file next to the executable and rename it to `classdata.tpk`).
+
 ```
 .\UnityAssetBundlePatcher\bin\Debug\net9.0\UnityAssetBundlePatcher.exe Tests\resources.assets Tests\Solid_001-resources.assets-6.dat --by-name "tea mug"
 ```
