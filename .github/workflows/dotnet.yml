@@ -2,10 +2,13 @@ name: .NET Build and Release
 
 on:
   push:
-    branches: [ "main" ]
-    tags:     [ "v*" ]      # triggers release job on version tags
+    branches: ["main"]
+    tags: ["v*"] # triggers release job on version tags
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
+
+env:
+  ARTIFACT_NAME: unity-asset-bundle-patcher
 
 jobs:
   build:
@@ -37,7 +40,7 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/v')
         uses: actions/upload-artifact@v4
         with:
-          name: my-app-exe
+          name: ${{ env.ARTIFACT_NAME }}
           path: ./publish/*.exe
 
   release:
@@ -47,7 +50,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: unity-asset-bundle-patcher
+          name: ${{ env.ARTIFACT_NAME }}
           path: ./publish
 
       - name: Create GitHub Release
