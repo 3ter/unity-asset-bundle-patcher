@@ -137,6 +137,9 @@ namespace Tests
             var assetInfoBefore = afile.GetAssetsOfType(AssetClassID.Mesh).Find(a => a.PathId == 5);
             long sizeBefore = assetInfoBefore.ByteSize;
 
+            // Unload the asset file to ensure it's not locked by the test itself
+            manager.UnloadAll();
+
             // Act: Patch in-place
             AssetPatcher.PatchRawAsset(assetFile, patchFile, assetFile);
 
