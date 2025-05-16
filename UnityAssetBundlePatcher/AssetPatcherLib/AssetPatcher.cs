@@ -44,8 +44,29 @@ namespace UnityAssetBundlePatcher.AssetPatcherLib
             }
             datFileInf.SetNewData(File.ReadAllBytes(datFile));
 
-            using var writer = new AssetsFileWriter(outputFile);
-            afile.Write(writer);
+            // Handle outputFile overwrite safety
+            string actualOutputFile = outputFile;
+            string? tempFile = null;
+            if (string.Equals(outputFile, fileToPatch, StringComparison.OrdinalIgnoreCase))
+            {
+                string timestamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                tempFile = outputFile + $"_{timestamp}.tmp";
+                actualOutputFile = tempFile;
+            }
+
+            using (var writer = new AssetsFileWriter(actualOutputFile))
+            {
+                afile.Write(writer);
+            }
+
+            manager.UnloadAll();
+
+            // If temp file was used, replace original after resources are freed
+            if (tempFile != null)
+            {
+                File.Delete(outputFile);
+                File.Move(tempFile, outputFile);
+            }
         }
     }
 }
