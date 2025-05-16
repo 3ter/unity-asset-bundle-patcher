@@ -31,7 +31,7 @@ jobs:
       # Only publish when building a tag (for release)
       - name: Publish self-contained .exe
         if: startsWith(github.ref, 'refs/tags/v')
-        run: dotnet publish -c Release -r win-x64 --project UnityAssetBundlePatcher/UnityAssetBundlePatcher.csproj --self-contained true -p:PublishSingleFile=true -o ./publish
+        run: dotnet publish -c Release -r win-x64 UnityAssetBundlePatcher/UnityAssetBundlePatcher.csproj --self-contained true -p:PublishSingleFile=true -o ./publish
 
       - name: Upload .exe as artifact
         if: startsWith(github.ref, 'refs/tags/v')
